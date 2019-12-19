@@ -25,6 +25,7 @@ public class JdbcAuthenticationTest {
       jdbcRealm.setAuthenticationQuery("select password from users where user_name = ? ");
       jdbcRealm.setUserRolesQuery("select role_name from user_roles where user_name = ?");
       jdbcRealm.setPermissionsQuery("select permission_name from roles_permissions where role_name = ?");
+      jdbcRealm.setPermissionsLookupEnabled(true);
       //构建环境
       DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager();
       defaultSecurityManager.setRealm(jdbcRealm);
