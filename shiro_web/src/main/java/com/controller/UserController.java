@@ -9,12 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
 
   @RequestMapping(value = "/subLogin",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-  @ResponseBody
   public String subLogoin(User user){
     //
     Subject subject = SecurityUtils.getSubject();
@@ -22,8 +22,13 @@ public class UserController {
     try {
       subject.login(token);
     } catch (AuthenticationException e) {
-      return e.getMessage();
+      return "403";
     }
-    return "登录成功";
+    return "index";
+  }
+  @RequestMapping(value = "/hello",method = {RequestMethod.POST,RequestMethod.GET},produces = "application/json;charset=UTF-8")
+  @ResponseBody
+  public String Hello(){
+    return "hello zjc";
   }
 }
