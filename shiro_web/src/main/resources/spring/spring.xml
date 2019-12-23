@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+  <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+    <property name="securityManager" ref="securityManager"></property>
+    <property name="loginUrl" value="login.html"></property>
+    <property name="unauthorizedUrl" value="403.html"></property>
+    <property name="filterChainDefinitions">
+      <value>
+        /login.html = anon
+        /subLogin = anon
+        /* = authc
+      </value>
+    </property>
+  </bean>
+  <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    <property name="realm" ref="customRealm"></property>
+  </bean>
+  <bean id="customRealm" class="com.realm.CustomRealm">
+    <property name="credentialsMatcher" ref="credentialsMatcher"></property>
+  </bean>
+  <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+      <property name="hashAlgorithmName" value="md5" ></property>
+    <property name="hashIterations" value="1"></property>
+  </bean>
+  <!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    <property name="contentType" value="text/html"/>
+    <property name="prefix" value="/" />
+    <property name="suffix" value=".html" />
+  </bean>
+
+</beans>
